@@ -208,7 +208,7 @@
                         </div>
                     </div>
                     <div class="relative h-64 md:h-full">
-                         <img src="https://d64gsuwffb70l.cloudfront.net/68fa3dd3457a959f82361909_1761230350143_b43d88c7.webp" alt="Dashboard de IA" class="rounded-2xl shadow-2xl border border-accent-light object-cover w-full h-full" />
+                         <img src="img/ai-3.png" alt="Dashboard de IA" class="rounded-2xl shadow-2xl border border-accent-light object-cover w-full h-full" />
                     </div>
                 </div>
             </div>
@@ -232,12 +232,12 @@
                 <div id="cta-form-container" class="max-w-md mx-auto">
                      <form id="cta-form" class="space-y-4 mb-8">
                          <input type="text" id="name" placeholder="Tu Nombre Completo (CEO / Dueño)" class="w-full px-6 py-4 bg-dark-tertiary border border-medium rounded-lg text-light placeholder-muted focus:border-accent focus:outline-none transition-colors" required />
-                         <input type="email" id="email" placeholder="Tu Email de Negocio" class="w-full px-6 py-4 bg-dark-tertiary border border-medium rounded-lg text-light placeholder-muted focus:border-accent focus:outline-none transition-colors" required />
-                         <input type="tel" id="phone" placeholder="Tu WhatsApp" class="w-full px-6 py-4 bg-dark-tertiary border border-medium rounded-lg text-light placeholder-muted focus:border-accent focus:outline-none transition-colors" required />
+                         <input type="email" id="email" placeholder="Tu Email" class="w-full px-6 py-4 bg-dark-tertiary border border-medium rounded-lg text-light placeholder-muted focus:border-accent focus:outline-none transition-colors" required />
+                         <input type="tel" id="phone" placeholder="Escribe tu numero de WhatsApp (+55 412 324 1269)" class="w-full px-6 py-4 bg-dark-tertiary border border-medium rounded-lg text-light placeholder-muted focus:border-accent focus:outline-none transition-colors" required />
                          
                          <!-- CTA (Formulario Final) OPTIMIZADO -->
                          <button type="submit" class="w-full gradient-button text-light px-10 py-5 text-lg font-bold rounded-full shadow-2xl transition-all duration-300 transform hover:scale-105">
-                             🔥 Quiero mi Diagnóstico Gratis y Mi Plan Ya
+                             🔥 Quiero mi Diagnóstico Gratis Ya
                          </button>
                      </form>
                 </div>
@@ -285,5 +285,52 @@
             // ...
         });
     </script>
+
+    <script>
+  const webhookURL = 'https://services.leadconnectorhq.com/hooks/hH6ptBZoknupPiFehzSV/webhook-trigger/12478657-47ba-4a20-97cd-e20e53d296fb';
+
+  const ctaForm = document.getElementById('cta-form');
+  const ctaFormContainer = document.getElementById('cta-form-container');
+  const successMessage = document.getElementById('success-message');
+
+  ctaForm.addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const name = document.getElementById('name').value.trim();
+    const email = document.getElementById('email').value.trim();
+    const phone = document.getElementById('phone').value.trim();
+
+    if (name && email && phone) {
+      const payload = {
+        name: name,
+        email: email,
+        phone: phone
+      };
+
+      try {
+        const response = await fetch(webhookURL, {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+
+
+        if (response.ok) {
+          ctaFormContainer.classList.add('hidden');
+          successMessage.classList.remove('hidden');
+        } else {
+          alert('Hubo un problema al enviar tu solicitud. Intenta nuevamente.');
+        }
+      } catch (error) {
+        console.error('Error al enviar al webhook:', error);
+        alert('Error de conexión. Verifica tu red o URL del webhook.');
+      }
+    } else {
+      alert('Por favor, completa todos los campos.');
+    }
+  });
+</script>
 </body>
 </html>
